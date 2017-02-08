@@ -1,0 +1,13 @@
+bro-deploy
+
+Usage:
+  bro-deploy
+  bro-deploy DIRECTORY
+  bro-deploy DIRECTORY --force
+  bro-deploy DIRECTORY --cache <cacheDirectory>
+  bro-deploy --help
+
+Options:
+  -h, --help              Show this screen.
+  -f, --force             Deploy without checking for uncommited changes.
+  -c, --cache=<cacheDir>  Specify a cache directory.

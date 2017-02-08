@@ -1,0 +1,16 @@
+{
+  "name": "bro-deploy",
+  "version": "0.1.0",
+  "description": "automagically deploy your app on Github pages",
+  "main": "index.js",
+  "bin": {
+    "bro-deploy": "bin/index.js"
+  },
+  "author": "Arnaud Juracek <arnaud.juracek@gmail.com> (http://arnaudjuracek.fr)",
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^2.0.0",
+    "kool-shell": "^0.5.4",
+    "minimist": "^1.2.0"
+  }
+}
