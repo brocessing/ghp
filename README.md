@@ -49,7 +49,7 @@ Options:
 
 ### installation
 ```sh
-npm install -s ghp
+npm install -S ghp
 ```
 
 ### usage
