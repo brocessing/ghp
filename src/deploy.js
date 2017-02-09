@@ -15,7 +15,6 @@ function deploy (entry, opts) {
         .exit(0)
     })
     .catch((err) => { sh.error('💀  Error during the deploying').error(err).exit(0) })
-  return console.log(opts)
 }
 
 module.exports = deploy
