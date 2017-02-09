@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.gif" alt="logo">
+  <img src="https://github.com/brocessing/ghp/raw/master/assets/logo.gif" alt="logo">
 </p>
 <h1 align="center">ghp</h1>
 <h3 align="center">Automagically deploy your app on Github pages</h3>
