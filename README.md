@@ -1,18 +1,13 @@
-<h1 align="center">ghp</h1>
-<h3 align="center">:package: automagically deploy your app on Github pages</h3>
-
 <div align="center">
-  <!-- License -->
-  <a href="https://raw.githubusercontent.com/brocessing/ghp/master/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License" />
-  </a>
-  <!-- Standard -->
-  <a href="http://standardjs.com/">
-    <img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square" alt="Standard" />
-  </a>
-</div>
 
-===
+![Logo](assets/logo.gif "Logo")
+# ghp
+### :package: automagically deploy your app on Github pages
+
+</div>
+<br>
+<br>
+<br>
 
 ### Features
 
