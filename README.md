@@ -23,8 +23,6 @@
 <br>
 <br>
 
-## Features
-
 ## CLI
 
 ### installation
