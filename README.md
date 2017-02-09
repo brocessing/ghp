@@ -13,6 +13,10 @@
   <a href="http://standardjs.com/">
     <img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square" alt="Standard" />
   </a>
+  <!-- npm version -->
+  <a href="https://www.npmjs.com/package/ghp">
+    <img src="https://img.shields.io/npm/v/ghp.svg?style=flat-square" alt="Standard" />
+  </a>
 </div>
 
 <br>
