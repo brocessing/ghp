@@ -6,7 +6,7 @@ const fs   = require('fs-extra')
 
 const steps = 5
 const defaultOpts = {
-  cachePath : path.join(__dirname, '.gh-pages-cache'),
+  cachePath : path.join(process.cwd(), '.gh-pages-cache'),
   quiet : false,
   cwd   : process.cwd(),
   force : false,
