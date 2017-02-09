@@ -8,11 +8,14 @@ const minimist = require('minimist')
 const minimistOpts = {
   string: [
     'cache',
+    'message',
   ],
   alias: {
     cache : ['c'],
     force : ['f'],
-    help  : ['h']
+    help  : ['h'],
+    message : ['m'],
+    quiet : ['q'],
   },
 }
 

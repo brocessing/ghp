@@ -6,10 +6,11 @@ const fs   = require('fs-extra')
 
 const steps = 5
 const defaultOpts = {
-  cachePath : path.join(process.cwd(), '.gh-pages-cache'),
-  quiet : false,
-  cwd   : process.cwd(),
-  force : false,
+  cache   : path.join(process.cwd(), '.gh-pages-cache'),
+  message : ':package: Update gh-pages',
+  quiet   : false,
+  cwd     : process.cwd(),
+  force   : false,
 }
 
 function ghpages (copyPath, opts) {
@@ -27,12 +28,12 @@ function ghpages (copyPath, opts) {
     dereference: false,
     preserveTimestamps: true,
     filter: function (path) {
-      return path !== opts.cachePath && !(/(^|\/)\.[^\/\.]/g).test(path)
+      return path !== opts.cache && !(/(^|\/)\.[^\/\.]/g).test(path)
     }
   }
 
 
-  function deploy (commitMessage = 'Update gh-pages :package:') {
+  function deploy () {
     return new Promise((resolve, reject) => {
       isEverythingCommit()
         .then(getRemoteGit)
@@ -53,7 +54,7 @@ function ghpages (copyPath, opts) {
           if (!opts.quiet) sh.step(3, steps, 'Copying dist folder...')
         })
         .then(copyFiles)
-        .then(() => commitAndPush(commitMessage))
+        .then(() => commitAndPush(opts.message))
         .then(removeCacheFolder)
         .then(() => {
           let components = (/github\.com\/([0-9a-z_-]+)\/([0-9a-z_-]+)\.git/gi).exec(remote)
@@ -79,24 +80,24 @@ function ghpages (copyPath, opts) {
   }
 
   function gitInit () {
-    return sh.silentExec('git', ['init'], { cwd: opts.cachePath })
+    return sh.silentExec('git', ['init'], { cwd: opts.cache })
   }
 
   function addRemoteOrigin () {
     return sh.silentExec('git',
       ['remote', 'add', 'origin', remote],
-      { cwd: opts.cachePath })
+      { cwd: opts.cache })
   }
 
   function removeCacheFolder () {
     return new Promise((resolve, reject) => {
-      fs.remove(opts.cachePath, e => e ? reject(e) : resolve())
+      fs.remove(opts.cache, e => e ? reject(e) : resolve())
     })
   }
 
   function createCacheFolder () {
     return new Promise((resolve, reject) => {
-      fs.mkdirp(opts.cachePath, e => e ? reject(e) : resolve())
+      fs.mkdirp(opts.cache, e => e ? reject(e) : resolve())
     })
   }
 
@@ -114,7 +115,7 @@ function ghpages (copyPath, opts) {
 
   function copyFiles () {
     return new Promise((resolve, reject) => {
-      fs.copy(copyPath, opts.cachePath, copyOptions, (err) => err ? reject(err) : resolve())
+      fs.copy(copyPath, opts.cache, copyOptions, (err) => err ? reject(err) : resolve())
     })
   }
 
@@ -122,32 +123,32 @@ function ghpages (copyPath, opts) {
     return new Promise((resolve, reject) => {
       sh.silentExec('git',
         ['show-ref', '--verify', '--opts.quiet', 'refs/heads/gh-pages'],
-        {cwd: opts.cachePath})
+        {cwd: opts.cache})
         .then(() => {
-          sh.silentExec('git', ['checkout', 'gh-pages'], {cwd: opts.cachePath})
+          sh.silentExec('git', ['checkout', 'gh-pages'], {cwd: opts.cache})
             .then(resolve, reject)
         })
         .catch((e) => {
-          sh.silentExec('git', ['checkout', '-b', 'gh-pages'], {cwd: opts.cachePath})
+          sh.silentExec('git', ['checkout', '-b', 'gh-pages'], {cwd: opts.cache})
             .then(resolve, reject)
         })
     })
   }
 
-  function commitAndPush (commitMessage) {
+  function commitAndPush (message) {
     return new Promise((resolve, reject) => {
       if (!opts.quiet) sh.step(4, steps, 'Adding files and commit...')
-      sh.silentExec('git', ['add', '-A'], {cwd: opts.cachePath})
+      sh.silentExec('git', ['add', '-A'], {cwd: opts.cache})
         .then(() => sh.silentExec('git',
-          ['commit', '-m', commitMessage],
-          {cwd: opts.cachePath}))
+          ['commit', '-m', message],
+          {cwd: opts.cache}))
         .catch(e => '') // mute error if there is nothing to commit
         .then(() => {
           if (!opts.quiet) sh.step(5, steps, 'Pushing files - this may take a moment...')
         })
         .then(() => sh.silentExec('git',
           ['push', 'origin', 'gh-pages', '--force'],
-          {cwd: opts.cachePath}))
+          {cwd: opts.cache}))
         .then(resolve)
         .catch(reject)
     })

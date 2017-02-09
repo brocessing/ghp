@@ -19,21 +19,68 @@
 <br>
 <br>
 
-### Features
+## Features
 
-### Installation
+## CLI
 
+### installation
 ```sh
-npm install --global brocessing/ghp
+npm install -g ghp
 ```
 
-```sh
-npm install --save brocessing/ghp
+### usage
+```
+ghp
+ghp DIRECTORY
+ghp DIRECTORY --force
+ghp DIRECTORY --cache <cacheDirectory>
+ghp DIRECTORY --message <msg>
+ghp --help
+
+Options:
+  -h, --help              Show this screen.
+  -m, --message=<msg>     Use the given <msg> as the commit message.
+  -f, --force             Deploy without checking for uncommited changes.
+  -q, --quiet             Suppress step summary messages.
+  -c, --cache=<cacheDir>  Specify a cache directory.
 ```
 
-### Usage
+## Node.js
 
-- `ghp myProject -`
+### installation
+```sh
+npm install -s ghp
+```
 
-### License
-MIT.
+### usage
+```js
+var ghp = require('ghp')
+ghp.deploy(path, options)
+```
+
+### options
+
++ **`options.cache`**
+  + path of the cache directory
+  + *default `./.gh-pages-cache`*
+
++ **`options.message`**
+  + commit message for the gh-pages branch, 
+  + *default `':package: Update gh-pages'`*
+
++ **`options.quiet`**
+  + suppress step summary messages
+  + *default `false`*
+
++ **`options.force`**
+  + skip the uncommited changes step
+  + *default `false`*
+
++ **`options.cwd`**
+  + git cwd
+  + *default `process.cwd()`*
+
+
+
+## License
+[MIT](https://tldrlegal.com/license/mit-license).

@@ -5,9 +5,12 @@ Usage:
   ghp DIRECTORY
   ghp DIRECTORY --force
   ghp DIRECTORY --cache <cacheDirectory>
+  ghp DIRECTORY --message <msg>
   ghp --help
 
 Options:
   -h, --help              Show this screen.
+  -m, --message=<msg>     Use the given <msg> as the commit message.
   -f, --force             Deploy without checking for uncommited changes.
+  -q, --quiet             Suppress step summary messages.
   -c, --cache=<cacheDir>  Specify a cache directory.
