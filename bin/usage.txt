@@ -1,11 +1,11 @@
-bro-deploy
+ghp
 
 Usage:
-  bro-deploy
-  bro-deploy DIRECTORY
-  bro-deploy DIRECTORY --force
-  bro-deploy DIRECTORY --cache <cacheDirectory>
-  bro-deploy --help
+  ghp
+  ghp DIRECTORY
+  ghp DIRECTORY --force
+  ghp DIRECTORY --cache <cacheDirectory>
+  ghp --help
 
 Options:
   -h, --help              Show this screen.

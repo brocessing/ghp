@@ -1,13 +1,18 @@
 {
-  "name": "bro-deploy",
-  "version": "0.1.0",
+  "name": "ghp",
+  "version": "1.0.0",
   "description": "automagically deploy your app on Github pages",
   "main": "index.js",
   "bin": {
-    "bro-deploy": "bin/index.js"
+    "ghp": "bin/index.js"
   },
-  "author": "Arnaud Juracek <arnaud.juracek@gmail.com> (http://arnaudjuracek.fr)",
+  "author": "Brocessing",
+  "homepage": "https://github.com/brocessing/ghp#readme",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brocessing/ghp.git"
+  },
   "dependencies": {
     "fs-extra": "^2.0.0",
     "kool-shell": "^0.5.4",

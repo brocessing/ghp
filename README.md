@@ -1,9 +1,9 @@
-<h1 align="center">bro-deploy</h1>
+<h1 align="center">ghp</h1>
 <h3 align="center">:package: automagically deploy your app on Github pages</h3>
 
 <div align="center">
   <!-- License -->
-  <a href="https://raw.githubusercontent.com/brocessing/bro-deploy/master/LICENSE">
+  <a href="https://raw.githubusercontent.com/brocessing/ghp/master/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License" />
   </a>
   <!-- Standard -->
@@ -19,16 +19,16 @@
 ### Installation
 
 ```sh
-npm install --global brocessing/bro-deploy
+npm install --global brocessing/ghp
 ```
 
 ```sh
-npm install --save brocessing/bro-deploy
+npm install --save brocessing/ghp
 ```
 
 ### Usage
 
-- `bro-deploy myProject -`
+- `ghp myProject -`
 
 ### License
 MIT.
