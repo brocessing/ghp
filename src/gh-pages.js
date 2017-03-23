@@ -57,8 +57,9 @@ function ghpages (copyPath, opts) {
         .then(() => commitAndPush(opts.message))
         .then(removeCacheFolder)
         .then(() => {
-          let components = (/github\.com\/([0-9a-z_-]+)\/([0-9a-z_-]+)\.git/gi).exec(remote)
-          resolve(`https://${components[1]}.github.io/${components[2]}/`)
+          let components = (/github\.com[:/]([0-9a-z_-]+)\/([0-9a-z_-]+)\.git/gi).exec(remote)
+          if (components) resolve(`https://${components[1]}.github.io/${components[2]}/`)
+          else resolve(null)
         })
         .catch(reject)
     })
