@@ -57,7 +57,7 @@ npm install -S ghp
 ### usage
 ```js
 var ghp = require('ghp')
-ghp.deploy(path, options)
+ghp(path, options)
 ```
 
 ### options
