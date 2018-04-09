@@ -14,7 +14,7 @@ function deploy (entry, opts) {
         .success(`🌍  Check out ${url}`)
         .exit(0)
     })
-    .catch((err) => { sh.error('💀  Error during the deploying').error(err).exit(0) })
+    .catch((err) => { sh.error('💀  Error during the deployment').error(err).exit(0) })
 }
 
 module.exports = deploy

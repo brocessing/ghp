@@ -147,7 +147,7 @@ function ghpages (copyPath, opts) {
       if (!opts.quiet) sh.step(4, steps, 'Adding files and commit...')
       sh.silentExec('git', ['add', '-A'], {cwd: opts.cache})
         .then(() => sh.silentExec('git',
-          ['commit', '-m', message],
+          ['commit', '-m', message, '--no-verify'],
           {cwd: opts.cache}))
         .catch(e => '') // mute error if there is nothing to commit
         .then(() => {
