@@ -62,10 +62,6 @@ ghp.deploy(path, options)
 
 ### options
 
-+ **`options.cache`**
-  + path of the cache directory
-  + *default `./.gh-pages-cache`*
-
 + **`options.message`**
   + commit message for the gh-pages branch, 
   + *default `':package: Update gh-pages'`*
