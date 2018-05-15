@@ -3,7 +3,7 @@
 const deploy   = require('./../index.js')
 const fs       = require('fs-extra')
 const path     = require('path')
-const sh       = require('kool-shell')
+const sh       = require('kool-shell/namespaced')('brocessing_ghp')
 const minimist = require('minimist')
 const minimistOpts = {
   string: [

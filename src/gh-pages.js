@@ -1,8 +1,9 @@
-'use strict'
-
 const path = require('path')
-const sh   = require('kool-shell')
-const fs   = require('fs-extra')
+const sh = require('kool-shell/namespaced')('brocessing_ghp')
+const fs = require('fs-extra')
+const tmp = require('tmp')
+
+tmp.setGracefulCleanup()
 
 const steps = 5
 const defaultOpts = {
@@ -13,11 +14,13 @@ const defaultOpts = {
   force   : false,
 }
 
+
 function ghpages (copyPath, opts) {
   copyPath = copyPath || process.cwd()
   opts  = Object.assign({}, defaultOpts,  opts || {})
 
   let remote = ''
+  let cleanupCallback
 
   const api = {
     deploy
@@ -32,18 +35,16 @@ function ghpages (copyPath, opts) {
     }
   }
 
-
   function deploy () {
     return new Promise((resolve, reject) => {
       isEverythingCommit()
         .then(getRemoteGit)
-        .then((res) => { remote = res })
         .then(() => {
+          if (!opts.quiet) console.log()
           if (!opts.quiet) sh.step(1, steps, 'Rebuilding cache folder...')
         })
         .then(removeCacheFolder)
         .then(createCacheFolder)
-        .then(getRemoteGit)
         .then(() => {
           if (!opts.quiet) sh.step(2, steps, 'Init git and gh-pages branch...')
         })
@@ -76,13 +77,16 @@ function ghpages (copyPath, opts) {
     return new Promise((resolve, reject) => {
       sh.silentExec('git', ['config', '--get', 'remote.origin.url'], {cwd: opts.cwd})
         .then((res) => {
-          if (!res || res === '') {
-            return reject('errorMsg')
-          }
-          remote = res
-          resolve(res)
+          if (!res || res.stdout === '') return reject(errorMsg)
+          if (res.stderr && res.stderr !== '') return Promise.reject(res)
+          remote = res.stdout.trim()
+          resolve(remote)
         })
-        .catch((e) => { reject(errorMsg) })
+        .catch((e) => {
+          if (e.stderr === undefined) return reject(e)
+          if (e.stderr !== '' || e.stdout !== '') return reject(e)
+          reject('Error with the command git config --get remote.origin.url')
+        })
     })
   }
 
@@ -98,13 +102,22 @@ function ghpages (copyPath, opts) {
 
   function removeCacheFolder () {
     return new Promise((resolve, reject) => {
-      fs.remove(opts.cache, e => e ? reject(e) : resolve())
+      fs.remove(opts.cache, e => {
+        try { cleanupCallback && cleanupCallback() } catch (e) {}
+        return e ? reject(e) : resolve()
+      })
     })
   }
 
   function createCacheFolder () {
     return new Promise((resolve, reject) => {
-      fs.mkdirp(opts.cache, e => e ? reject(e) : resolve())
+      tmp.dir((err, path, cb) => {
+        if (err) reject(err)
+        opts.cache = path
+        cleanupCallback = cb
+        fs.mkdirp(opts.cache, e => e ? reject(e) : resolve())
+        resolve()
+      })
     })
   }
 
@@ -113,10 +126,15 @@ function ghpages (copyPath, opts) {
     return new Promise((resolve, reject) => {
       sh.silentExec('git', ['status', '--porcelain'], {cwd: opts.cwd})
         .then((res) => {
-          if (res !== '') reject('Uncommitted git changes! Deploy failed.')
+          if (res.stderr && res.stderr !== '') return Promise.reject(res)
+          if (res.stdout.trim() !== '') reject('Uncommitted git changes! Deploy failed.')
           else resolve()
         })
-        .catch(reject)
+        .catch((e) => {
+          if (e.stderr === undefined) return reject(e)
+          if (e.stderr !== '' || e.stdout !== '') return reject(e)
+          reject('Error with the command git status --porcelain')
+        })
     })
   }
 
@@ -149,7 +167,11 @@ function ghpages (copyPath, opts) {
         .then(() => sh.silentExec('git',
           ['commit', '-m', message, '--no-verify'],
           {cwd: opts.cache}))
-        .catch(e => '') // mute error if there is nothing to commit
+        .catch(e => {
+          return (e.stdout && ~e.stdout.indexOf('othing to commit'))
+            ? Promise.reject('Nothing to commit')
+            : Promise.reject(e)
+        }) // mute error if there is nothing to commit
         .then(() => {
           if (!opts.quiet) sh.step(5, steps, 'Pushing files - this may take a moment...')
         })
