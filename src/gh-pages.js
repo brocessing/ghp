@@ -7,6 +7,7 @@ tmp.setGracefulCleanup()
 
 const steps = 5
 const defaultOpts = {
+  branch  : 'gh-pages',
   cache   : path.join(process.cwd(), '.gh-pages-cache'),
   message : ':package: Update gh-pages',
   quiet   : false,
@@ -46,7 +47,7 @@ function ghpages (copyPath, opts) {
         .then(removeCacheFolder)
         .then(createCacheFolder)
         .then(() => {
-          if (!opts.quiet) sh.step(2, steps, 'Init git and gh-pages branch...')
+          if (!opts.quiet) sh.step(2, steps, `Init git and ${opts.branch} branch...`)
         })
         .then(gitInit)
         .then(addRemoteOrigin)
@@ -147,14 +148,14 @@ function ghpages (copyPath, opts) {
   function checkoutGhPages () {
     return new Promise((resolve, reject) => {
       sh.silentExec('git',
-        ['show-ref', '--verify', '--opts.quiet', 'refs/heads/gh-pages'],
+        ['show-ref', '--verify', '--opts.quiet', 'refs/heads/' + opts.branch],
         {cwd: opts.cache})
         .then(() => {
-          sh.silentExec('git', ['checkout', 'gh-pages'], {cwd: opts.cache})
+          sh.silentExec('git', ['checkout', opts.branch], {cwd: opts.cache})
             .then(resolve, reject)
         })
         .catch((e) => {
-          sh.silentExec('git', ['checkout', '-b', 'gh-pages'], {cwd: opts.cache})
+          sh.silentExec('git', ['checkout', '-b', opts.branch], {cwd: opts.cache})
             .then(resolve, reject)
         })
     })
@@ -176,7 +177,7 @@ function ghpages (copyPath, opts) {
           if (!opts.quiet) sh.step(5, steps, 'Pushing files - this may take a moment...')
         })
         .then(() => sh.silentExec('git',
-          ['push', 'origin', 'gh-pages', '--force'],
+          ['push', 'origin', opts.branch, '--force'],
           {cwd: opts.cache}))
         .then(resolve)
         .catch(reject)

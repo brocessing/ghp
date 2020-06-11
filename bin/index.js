@@ -9,8 +9,10 @@ const minimistOpts = {
   string: [
     'cache',
     'message',
+    'branch'
   ],
   alias: {
+    branch : ['b'],
     cache : ['c'],
     force : ['f'],
     help  : ['h'],

@@ -8,8 +8,8 @@ function deploy (entry, opts) {
   return pages.deploy()
     .then((url) => {
       console.log()
-      sh.success('📦  New build pushed on the gh-pages branch !')
-      sh.success(`🌍  Check out ${sh.colors.yellow(url)}`)
+      sh.success(`📦  New build pushed on the ${opts.branch || 'gh-pages'} branch !`)
+      if (opts.branch === 'gh-pages') sh.success(`🌍  Check out ${sh.colors.yellow(url)}`)
       sh.exit(0)
     })
     .catch((err) => {

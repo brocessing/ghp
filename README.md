@@ -37,10 +37,13 @@ ghp DIRECTORY
 ghp DIRECTORY --force
 ghp DIRECTORY --cache <cacheDirectory>
 ghp DIRECTORY --message <msg>
+ghp DIRECTORY --branch gh-pages
 ghp --help
 
 Options:
   -h, --help              Show this screen.
+  -b, --branch=<branchName>
+                          Specify the branch to deploy to (default: gh-pages).
   -m, --message=<msg>     Use the given <msg> as the commit message.
   -f, --force             Deploy without checking for uncommited changes.
   -q, --quiet             Suppress step summary messages.
@@ -62,8 +65,13 @@ ghp.deploy(path, options)
 
 ### options
 
++ **`options.branch`**
+  + branch to deploy to
+  + *default `'gh-pages'`*
+
+
 + **`options.message`**
-  + commit message for the gh-pages branch, 
+  + commit message for the gh-pages branch
   + *default `':package: Update gh-pages'`*
 
 + **`options.quiet`**
