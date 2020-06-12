@@ -7,11 +7,13 @@ const sh       = require('kool-shell/namespaced')('brocessing_ghp')
 const minimist = require('minimist')
 const minimistOpts = {
   string: [
+    'append',
     'cache',
     'message',
     'branch'
   ],
   alias: {
+    append : ['a'],
     branch : ['b'],
     cache : ['c'],
     force : ['f'],

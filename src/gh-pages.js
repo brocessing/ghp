@@ -2,11 +2,13 @@ const path = require('path')
 const sh = require('kool-shell/namespaced')('brocessing_ghp')
 const fs = require('fs-extra')
 const tmp = require('tmp')
+const { ncp } = require('ncp')
 
 tmp.setGracefulCleanup()
 
 const steps = 5
 const defaultOpts = {
+  append  : undefined,
   branch  : 'gh-pages',
   cache   : path.join(process.cwd(), '.gh-pages-cache'),
   message : ':package: Update gh-pages',
@@ -56,6 +58,7 @@ function ghpages (copyPath, opts) {
           if (!opts.quiet) sh.step(3, steps, 'Copying dist folder...')
         })
         .then(copyFiles)
+        .then(appendFiles)
         .then(() => commitAndPush(opts.message))
         .then(removeCacheFolder)
         .then(() => {
@@ -142,6 +145,13 @@ function ghpages (copyPath, opts) {
   function copyFiles () {
     return new Promise((resolve, reject) => {
       fs.copy(copyPath, opts.cache, copyOptions, (err) => err ? reject(err) : resolve())
+    })
+  }
+
+  function appendFiles () {
+    if (!opts.append) return
+    return new Promise((resolve, reject) => {
+      ncp(opts.append, path.join(opts.cache, path.basename(opts.append)), (err) => err ? reject(err) : resolve())
     })
   }
 

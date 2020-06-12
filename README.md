@@ -38,6 +38,7 @@ ghp DIRECTORY --force
 ghp DIRECTORY --cache <cacheDirectory>
 ghp DIRECTORY --message <msg>
 ghp DIRECTORY --branch gh-pages
+ghp DIRECTORY --append <someDirectoryOrFiles>
 ghp --help
 
 Options:
@@ -45,9 +46,11 @@ Options:
   -b, --branch=<branchName>
                           Specify the branch to deploy to (default: gh-pages).
   -m, --message=<msg>     Use the given <msg> as the commit message.
+  -a, --append=<dir>      Copy to the pushed directory another directory.
   -f, --force             Deploy without checking for uncommited changes.
   -q, --quiet             Suppress step summary messages.
   -c, --cache=<cacheDir>  Specify a cache directory.
+
 ```
 
 ## Node.js
@@ -69,10 +72,13 @@ ghp.deploy(path, options)
   + branch to deploy to
   + *default `'gh-pages'`*
 
-
 + **`options.message`**
   + commit message for the gh-pages branch
   + *default `':package: Update gh-pages'`*
+
++ **`options.append`**
+  + append to the root of the pushed directory another path
+  + *default `false`*
 
 + **`options.quiet`**
   + suppress step summary messages
