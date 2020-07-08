@@ -33,9 +33,7 @@ function ghpages (copyPath, opts) {
     clobber: true,
     dereference: false,
     preserveTimestamps: true,
-    filter: function (path) {
-      return path !== opts.cache && !(/(^|\/)\.[^\/\.]/g).test(path)
-    }
+    filter: path => path !== opts.cache
   }
 
   function deploy () {
