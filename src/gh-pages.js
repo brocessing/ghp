@@ -148,9 +148,11 @@ function ghpages (copyPath, opts) {
 
   function appendFiles () {
     if (!opts.append) return
-    return new Promise((resolve, reject) => {
-      ncp(opts.append, path.join(opts.cache, path.basename(opts.append)), (err) => err ? reject(err) : resolve())
-    })
+    return Promise.all(
+      (Array.isArray(opts.append) ? opts.append : [opts.append]).map(dir => new Promise((resolve, reject) => {
+        ncp(dir, path.join(opts.cache, path.basename(dir)), (err) => err ? reject(err) : resolve())
+      }))
+    )
   }
 
   function checkoutGhPages () {
